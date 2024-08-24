@@ -6,8 +6,8 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-@Table(name = "doctors")
-public class doctor implements Serializable {
+@Table(name = "Doctors")
+public class Doctor implements Serializable {
     private  static final  long serialVersionUID = 1L;
 
     @Id
@@ -20,7 +20,7 @@ public class doctor implements Serializable {
     private String password;
     private String role;
 
-    public doctor(String role, Long id, String name, String specialization, String login, String password) {
+    public Doctor(String role, Long id, String name, String specialization, String login, String password) {
         this.role = role;
         this.id = id;
         this.name = name;
@@ -28,7 +28,7 @@ public class doctor implements Serializable {
         this.login = login;
         this.password = password;
     }
-    public doctor(){
+    public Doctor(){
     }
 
     public Long getId() {
@@ -83,7 +83,7 @@ public class doctor implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        doctor doctor = (doctor) o;
+        Doctor doctor = (Doctor) o;
         return Objects.equals(id, doctor.id);
     }
 
