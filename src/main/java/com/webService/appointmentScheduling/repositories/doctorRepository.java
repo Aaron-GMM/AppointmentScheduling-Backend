@@ -1,4 +1,7 @@
 package com.webService.appointmentScheduling.repositories;
 
-public interface doctorRepository {
+import com.webService.appointmentScheduling.entities.Doctor;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface doctorRepository extends JpaRepository<Doctor, Long> {
 }
