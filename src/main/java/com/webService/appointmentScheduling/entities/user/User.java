@@ -1,13 +1,18 @@
-package com.webService.appointmentScheduling.entities;
+package com.webService.appointmentScheduling.entities.user;
 
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.io.Serializable;
+import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Table(name = "Users")
-public class User implements Serializable {
+public class User implements UserDetails, Serializable {
     private  static final  long serialVersionUID = 1L;
 
     @Id
@@ -16,10 +21,10 @@ public class User implements Serializable {
     private String nome;
     private String login;
     private String password;
-    private String role;
+    private UserRole role;
 
-    public User(Long id, String nome, String login, String password, String role) {
-        this.id = id;
+    public User(String nome, String login, String password, UserRole role) {
+
         this.nome = nome;
         this.login = login;
         this.password = password;
@@ -51,8 +56,40 @@ public class User implements Serializable {
         this.login = login;
     }
 
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        if (this.role == UserRole.ADMIN){
+            return List.of( new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER"));
+        } else return  List.of(new SimpleGrantedAuthority("ROlE_USER"));
+    }
     public String getPassword() {
         return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return login;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 
     public void setPassword(String password) {
@@ -60,10 +97,10 @@ public class User implements Serializable {
     }
 
     public String getRole() {
-        return role;
+        return UserRole.USER.getRole();
     }
 
-    public void setRole(String role) {
+    public void setRole(UserRole role) {
         this.role = role;
     }
 

@@ -1,4 +1,4 @@
-package com.webService.appointmentScheduling.controller;
+package com.webService.appointmentScheduling.web.controller;
 
 import org.springframework.stereotype.Controller;
 
