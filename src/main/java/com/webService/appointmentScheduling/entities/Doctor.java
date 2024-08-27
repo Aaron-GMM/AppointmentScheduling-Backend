@@ -1,13 +1,19 @@
 package com.webService.appointmentScheduling.entities;
 
+import com.webService.appointmentScheduling.entities.user.UserRole;
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.io.Serializable;
+import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Table(name = "Doctors")
-public class Doctor implements Serializable {
+public class Doctor implements UserDetails, Serializable {
     private  static final  long serialVersionUID = 1L;
 
     @Id
@@ -18,9 +24,9 @@ public class Doctor implements Serializable {
     private String specialization;
     private String login;
     private String password;
-    private String role;
+    private UserRole role;
 
-    public Doctor(String role, Long id, String name, String specialization, String login, String password) {
+    public Doctor(UserRole role, Long id, String name, String specialization, String login, String password) {
         this.role = role;
         this.id = id;
         this.name = name;
@@ -63,8 +69,40 @@ public class Doctor implements Serializable {
         this.login = login;
     }
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        if (this.role == UserRole.ADMIN){
+            return List.of( new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER"));
+        } else return  List.of(new SimpleGrantedAuthority("ROlE_USER"));
+    }
+
     public String getPassword() {
         return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return login;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 
     public void setPassword(String password) {
@@ -72,10 +110,10 @@ public class Doctor implements Serializable {
     }
 
     public String getRole() {
-        return role;
+        return UserRole.USER.getRole();
     }
 
-    public void setRole(String role) {
+    public void setRole(UserRole role) {
         this.role = role;
     }
 
