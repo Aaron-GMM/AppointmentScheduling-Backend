@@ -1,5 +1,5 @@
 package com.webService.appointmentScheduling.entities;
-
+import com.webService.appointmentScheduling.entities.user.UserRole;
 import jakarta.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
@@ -24,7 +24,7 @@ public class Queries implements Serializable {
     @JoinColumn(name = "doctor_id", nullable = false)
     private Doctor doctor;
 
-    public Queries(Long id, String hora, String date, String description, Patients patient, Doctor doctor) {
+    public Queries(Long id, String hora, String date, String description,Patients patient, Doctor doctor) {
         this.id = id;
         this.hora = hora;
         this.date = date;
