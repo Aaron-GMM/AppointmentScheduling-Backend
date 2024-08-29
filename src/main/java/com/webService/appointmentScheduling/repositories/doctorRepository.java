@@ -2,6 +2,10 @@ package com.webService.appointmentScheduling.repositories;
 
 import com.webService.appointmentScheduling.entities.Doctor;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.security.core.userdetails.UserDetails;
 
 public interface doctorRepository extends JpaRepository<Doctor, Long> {
+
+    UserDetails findBylogin(String login);
+
 }

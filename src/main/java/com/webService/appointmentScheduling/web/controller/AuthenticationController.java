@@ -3,8 +3,9 @@ import com.webService.appointmentScheduling.entities.user.LoginResponseDTO;
 import com.webService.appointmentScheduling.entities.user.User;
 import com.webService.appointmentScheduling.infra.security.TokenService;
 import com.webService.appointmentScheduling.repositories.userRepository;
+import com.webService.appointmentScheduling.service.userService;
 import com.webService.appointmentScheduling.entities.user.AuthenticationDTO;
-import com.webService.appointmentScheduling.entities.user.RegisterDTO;
+import com.webService.appointmentScheduling.entities.user.RegisterUserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -23,7 +24,9 @@ public class AuthenticationController {
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private userRepository userRepository;
+     private userRepository userRepository;
+    @Autowired
+    private userService userService;
 
     @Autowired
     private TokenService tokenService;
@@ -40,14 +43,14 @@ public class AuthenticationController {
 
 
     @PostMapping("/register")
-    public ResponseEntity register(@RequestBody RegisterDTO data){
+    public ResponseEntity register(@RequestBody RegisterUserDTO data){
         if (this.userRepository.findByLogin(data.login())!= null){
             return ResponseEntity.badRequest().build();
         }
         String encryptedPassword = new BCryptPasswordEncoder().encode(data.password());
         User newUser = new User(data.nome(),data.login(),encryptedPassword, data.role());
 
-        this.userRepository.save(newUser);
+        this.userService.insert(newUser);
         return ResponseEntity.ok().build();
     }
 }
