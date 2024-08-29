@@ -1,19 +1,13 @@
 package com.webService.appointmentScheduling.entities;
 
-import com.webService.appointmentScheduling.entities.user.UserRole;
 import jakarta.persistence.*;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
 import java.io.Serializable;
-import java.util.Collection;
-import java.util.List;
+import java.util.Date;
 import java.util.Objects;
 
 @Entity
 @Table(name = "Doctors")
-public class Doctor implements UserDetails, Serializable {
+public class Doctor implements Serializable {
     private  static final  long serialVersionUID = 1L;
 
     @Id
@@ -21,18 +15,18 @@ public class Doctor implements UserDetails, Serializable {
     private  Long id;
 
     private String name;
+    private String tell;
+    private String cpf;
     private String specialization;
-    private String login;
-    private String password;
-    private UserRole role;
+    private Date dataNascimento;
 
-    public Doctor(UserRole role, Long id, String name, String specialization, String login, String password) {
-        this.role = role;
+    public Doctor( Long id, String name, String tell, String cpf, String specialization,Date dataNascimento ) {
         this.id = id;
         this.name = name;
+        this.tell = tell;
+        this.cpf = cpf;
         this.specialization = specialization;
-        this.login = login;
-        this.password = password;
+        this.dataNascimento = dataNascimento;
     }
     public Doctor(){
     }
@@ -61,60 +55,28 @@ public class Doctor implements UserDetails, Serializable {
         this.specialization = specialization;
     }
 
-    public String getLogin() {
-        return login;
+    public String getTell() {
+        return tell;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
+    public void setTell(String tell) {
+        this.tell = tell;
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        if (this.role == UserRole.ADMIN){
-            return List.of( new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER"));
-        } else return  List.of(new SimpleGrantedAuthority("ROlE_USER"));
+    public String getCpf() {
+        return cpf;
     }
 
-    public String getPassword() {
-        return password;
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
     }
 
-    @Override
-    public String getUsername() {
-        return login;
+    public Date getDataNascimento() {
+        return dataNascimento;
     }
 
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getRole() {
-        return UserRole.USER.getRole();
-    }
-
-    public void setRole(UserRole role) {
-        this.role = role;
+    public void setDataNascimento(Date dataNascimento) {
+        this.dataNascimento = dataNascimento;
     }
 
     @Override
