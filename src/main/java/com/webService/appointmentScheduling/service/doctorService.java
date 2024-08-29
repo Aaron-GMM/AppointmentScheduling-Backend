@@ -14,7 +14,4 @@ public class doctorService {
     private doctorRepository repository;
 
 
-    public List<Doctor> findAll(){
-        return repository.findAll();
-    }
 }
