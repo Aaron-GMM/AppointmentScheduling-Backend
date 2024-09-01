@@ -1,4 +1,4 @@
-package com.webService.appointmentScheduling.entities.user;
+package com.webService.appointmentScheduling.DTO.user;
 
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;

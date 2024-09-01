@@ -1,11 +1,11 @@
 package com.webService.appointmentScheduling.web.controller;
-import com.webService.appointmentScheduling.entities.user.LoginResponseDTO;
-import com.webService.appointmentScheduling.entities.user.User;
+import com.webService.appointmentScheduling.DTO.user.LoginResponseDTO;
+import com.webService.appointmentScheduling.DTO.user.User;
 import com.webService.appointmentScheduling.infra.security.TokenService;
 import com.webService.appointmentScheduling.repositories.userRepository;
 import com.webService.appointmentScheduling.service.userService;
-import com.webService.appointmentScheduling.entities.user.AuthenticationDTO;
-import com.webService.appointmentScheduling.entities.user.RegisterUserDTO;
+import com.webService.appointmentScheduling.DTO.user.AuthenticationDTO;
+import com.webService.appointmentScheduling.DTO.user.RegisterUserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
