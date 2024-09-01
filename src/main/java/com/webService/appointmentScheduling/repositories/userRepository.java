@@ -1,6 +1,6 @@
 package com.webService.appointmentScheduling.repositories;
 
-import com.webService.appointmentScheduling.entities.user.User;
+import com.webService.appointmentScheduling.DTO.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 
