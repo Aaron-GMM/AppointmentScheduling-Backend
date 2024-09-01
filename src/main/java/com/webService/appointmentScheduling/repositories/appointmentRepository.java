@@ -10,4 +10,6 @@ public interface appointmentRepository extends JpaRepository<Appointment, Long> 
         List<Appointment> findByDoctorAndDateAndTime(Long doctorId, LocalDate date, LocalTime hora);
 
         List<Appointment> findByPatientAndDateAndTime(Long patientId, LocalDate date, LocalTime time);
+
+        List<Appointment> findByDateAndTime(LocalDate date, LocalTime time);
 }
