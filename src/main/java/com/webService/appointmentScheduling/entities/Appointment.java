@@ -1,6 +1,8 @@
 package com.webService.appointmentScheduling.entities;
 import jakarta.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Objects;
 
 @Entity
@@ -11,8 +13,8 @@ public class Appointment implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private  Long id;
-    private String hora;
-    private String date;
+    private LocalTime hora;
+    private LocalDate date;
     private String description;
 
     @ManyToOne
@@ -23,7 +25,7 @@ public class Appointment implements Serializable {
     @JoinColumn(name = "doctor_id", nullable = false)
     private Doctor doctor;
 
-    public Appointment(Long id, String hora, String date, String description, Patients patient, Doctor doctor) {
+    public Appointment(Long id, LocalTime hora, LocalDate date, String description, Patients patient, Doctor doctor) {
         this.id = id;
         this.hora = hora;
         this.date = date;
@@ -41,19 +43,19 @@ public class Appointment implements Serializable {
         this.id = id;
     }
 
-    public String getHora() {
+    public LocalTime getHora() {
         return hora;
     }
 
-    public void setHora(String hora) {
+    public void setHora(LocalTime hora) {
         this.hora = hora;
     }
 
-    public String getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
