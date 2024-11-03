@@ -8,7 +8,7 @@ public class AppointmentResponseDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Long id;
-    private LocalTime hora;
+    private LocalTime time;
     private LocalDate date;
     private String description;
     private String patientName;
@@ -16,9 +16,9 @@ public class AppointmentResponseDTO implements Serializable {
 
     public AppointmentResponseDTO() {}
 
-    public AppointmentResponseDTO(Long id, LocalTime hora, LocalDate date, String description, String patientName, String doctorName) {
+    public AppointmentResponseDTO(Long id, LocalTime time, LocalDate date, String description, String patientName, String doctorName) {
         this.id = id;
-        this.hora = hora;
+        this.time = time;
         this.date = date;
         this.description = description;
         this.patientName = patientName;
@@ -34,12 +34,12 @@ public class AppointmentResponseDTO implements Serializable {
         this.id = id;
     }
 
-    public LocalTime getHora() {
-        return hora;
+    public LocalTime gettime() {
+        return time;
     }
 
-    public void setHora(LocalTime hora) {
-        this.hora = hora;
+    public void settime(LocalTime time) {
+        this.time = time;
     }
 
     public LocalDate getDate() {

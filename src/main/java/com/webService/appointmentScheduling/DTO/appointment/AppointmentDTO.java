@@ -6,7 +6,7 @@ public class AppointmentDTO implements Serializable {
     private  static final long serialVersionUID = 1L;
 
     private Long id;
-    private String hora;
+    private String time;
     private String date;
     private String description;
     private Long patientId;
@@ -14,9 +14,9 @@ public class AppointmentDTO implements Serializable {
 
     public AppointmentDTO() {}
 
-    public AppointmentDTO(Long id, String hora, String date, String description, Long patientId, Long doctorId) {
+    public AppointmentDTO(Long id, String time, String date, String description, Long patientId, Long doctorId) {
         this.id = id;
-        this.hora = hora;
+        this.time = time;
         this.date = date;
         this.description = description;
         this.patientId = patientId;
@@ -32,12 +32,12 @@ public class AppointmentDTO implements Serializable {
         this.id = id;
     }
 
-    public String getHora() {
-        return hora;
+    public String getTime() {
+        return time;
     }
 
-    public void setHora(String hora) {
-        this.hora = hora;
+    public void setTime(String time) {
+        this.time = time;
     }
 
     public String getDate() {
