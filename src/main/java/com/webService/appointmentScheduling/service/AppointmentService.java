@@ -25,36 +25,38 @@ public class AppointmentService {
     private  final LocalTime endTime = LocalTime.of(14,0);
 
     public Appointment scheduleAppointment(AppointmentRequestDTO requestDTO){
-        if (requestDTO.getHora().isBefore(startTime)|| requestDTO.getHora().isAfter(endTime)){
-            throw  new IllegalArgumentException("Horario fora do intervalo permitido (8:00-14:00).");
+        if (requestDTO.getTime().isBefore(startTime)|| requestDTO.getTime().isAfter(endTime)){
+            throw  new IllegalArgumentException("timer fora do intervalo permitido (8:00-14:00).");
         }
-        if (!isDoctorAvailable(requestDTO.getDoctorId(),requestDTO.getDate(),requestDTO.getHora())){
+        if (!isDoctorAvailable(requestDTO.getDoctorId(),requestDTO.getDate(),requestDTO.getTime())){
             throw  new IllegalArgumentException("o médico já tem uma consulta agendada nesse horário. ");
         }
-        if(!isPatientAvailable(requestDTO.getPatientId(),requestDTO.getDate(),requestDTO.getHora())){
+        if(!isPatientAvailable(requestDTO.getPatientId(),requestDTO.getDate(),requestDTO.getTime())){
             throw  new IllegalArgumentException("o paciente já tem uma consulta nesse horário.");
         }
         Appointment appointment = fromDTO(requestDTO);
         return  repository.save(appointment);
     }
 
-    private boolean isDoctorAvailable(Long id, LocalDate date, LocalTime time){
-        return  repository.findByDoctorAndDateAndTime(id,date,time).isEmpty();
+    private boolean isDoctorAvailable(Long doctorId, LocalDate date, LocalTime time){
+        Doctor doctor = doctorService.findById(doctorId);
+        return  repository.findByDoctorAndDateAndTime(doctor.getId(),date,time).isEmpty();
     }
 
-    private  boolean isPatientAvailable(Long id, LocalDate date, LocalTime time){
-        return repository.findByPatientAndDateAndTime(id,date,time).isEmpty();
+    private  boolean isPatientAvailable(Long patientId, LocalDate date, LocalTime time){
+        Patients patient = patientsService.findById(patientId);
+        return repository.findByPatientAndDateAndTime(patient.getId(),date,time).isEmpty();
     }
     public Appointment fromDTO(AppointmentRequestDTO dto){
         Patients patient = patientsService.findById(dto.getPatientId());
         Doctor doctor = doctorService.findById(dto.getDoctorId());
-        return  new Appointment(null, dto.getHora(),dto.getDate(),dto.getDescription(),patient,doctor);
+        return  new Appointment(null, dto.getTime(),dto.getDate(),dto.getDescription(),patient,doctor);
     }
     public AppointmentResponseDTO toDTO(Appointment appointment){
 
         return  new AppointmentResponseDTO(
                 appointment.getId(),
-                appointment.getHora(),
+                appointment.getTime(),
                 appointment.getDate(),
                 appointment.getDescription(),
                 appointment.getPatient().getName(),
