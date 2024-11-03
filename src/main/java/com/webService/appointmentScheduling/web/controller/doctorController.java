@@ -1,14 +1,11 @@
 package com.webService.appointmentScheduling.web.controller;
-import com.webService.appointmentScheduling.entities.Doctor;
+import com.webService.appointmentScheduling.DTO.doctor.DoctorRequestDTO;
+import com.webService.appointmentScheduling.DTO.doctor.DoctorResponseDTO;
 import com.webService.appointmentScheduling.service.doctorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Collection;
+import org.springframework.web.bind.annotation.*;
 import java.util.Collections;
 import java.util.List;
 
@@ -21,9 +18,9 @@ public class doctorController {
     private doctorService service;
 
     @GetMapping("/all")
-    public ResponseEntity<List<Doctor>> findAll(){
+    public ResponseEntity<List<DoctorResponseDTO>> findAll(){
         try {
-            List<Doctor> list_doctor = service.findAll();
+            List<DoctorResponseDTO> list_doctor = service.findAll();
             return ResponseEntity.ok().body(list_doctor);
         }catch (Exception e){
             return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.emptyList());
@@ -31,4 +28,13 @@ public class doctorController {
         }
 
 
+    @PostMapping("/register")
+    public ResponseEntity<DoctorResponseDTO> createDoctor(@RequestBody DoctorRequestDTO doctorRequestDTO) {
+        DoctorResponseDTO doctorResponse = service.insert(doctorRequestDTO);
+        DoctorResponseDTO doctorResponseDTO = new DoctorResponseDTO(doctorResponse.getId(), doctorResponse.getName(), doctorResponse.getTell(),
+                doctorResponse.getCpf(), doctorResponse.getSpecialization(), doctorResponse.getDataNascimento());
+        return ResponseEntity.ok(doctorResponseDTO);
+    }
+
+    
 }
