@@ -13,7 +13,7 @@ public class Appointment implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private  Long id;
-    private LocalTime hora;
+    private LocalTime time;
     private LocalDate date;
     private String description;
 
@@ -25,9 +25,9 @@ public class Appointment implements Serializable {
     @JoinColumn(name = "doctor_id", nullable = false)
     private Doctor doctor;
 
-    public Appointment(Long id, LocalTime hora, LocalDate date, String description, Patients patient, Doctor doctor) {
+    public Appointment(Long id, LocalTime time, LocalDate date, String description, Patients patient, Doctor doctor) {
         this.id = id;
-        this.hora = hora;
+        this.time = time;
         this.date = date;
         this.description = description;
         this.patient = patient;
@@ -43,12 +43,12 @@ public class Appointment implements Serializable {
         this.id = id;
     }
 
-    public LocalTime getHora() {
-        return hora;
+    public LocalTime getTime() {
+        return time;
     }
 
-    public void setHora(LocalTime hora) {
-        this.hora = hora;
+    public void setTime(LocalTime time) {
+        this.time = time;
     }
 
     public LocalDate getDate() {
