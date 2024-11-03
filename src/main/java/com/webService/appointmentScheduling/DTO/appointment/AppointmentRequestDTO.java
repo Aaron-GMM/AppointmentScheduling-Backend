@@ -7,7 +7,7 @@ import java.time.LocalTime;
 public class AppointmentRequestDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private LocalTime hora;
+    private LocalTime time;
     private LocalDate date;
     private String description;
     private Long patientId;
@@ -15,8 +15,8 @@ public class AppointmentRequestDTO implements Serializable {
 
     public AppointmentRequestDTO() {}
 
-    public AppointmentRequestDTO(LocalTime hora, LocalDate date, String description, Long patientId, Long doctorId) {
-        this.hora = hora;
+    public AppointmentRequestDTO(LocalTime time, LocalDate date, String description, Long patientId, Long doctorId) {
+        this.time = time;
         this.date = date;
         this.description = description;
         this.patientId = patientId;
@@ -24,12 +24,12 @@ public class AppointmentRequestDTO implements Serializable {
     }
 
     // Getters e Setters
-    public LocalTime getHora() {
-        return hora;
+    public LocalTime getTime() {
+        return time;
     }
 
-    public void setHora(LocalTime hora) {
-        this.hora = hora;
+    public void setTime(LocalTime time) {
+        this.time = time;
     }
 
     public LocalDate getDate() {

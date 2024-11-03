@@ -6,10 +6,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/")
+@RequestMapping("/patients")
 public class patientsController {
     @Autowired
     private patientsService patientsService;
+
 
 
 
