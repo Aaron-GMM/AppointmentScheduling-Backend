@@ -3,8 +3,10 @@ package com.webService.appointmentScheduling.repositories;
 import com.webService.appointmentScheduling.entities.Doctor;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface doctorRepository extends JpaRepository<Doctor, Long> {
+import java.util.Optional;
 
+public interface doctorRepository extends JpaRepository<Doctor, Long> {
+       Optional<Doctor> findByCpf(String cpf);
 
 
 }
