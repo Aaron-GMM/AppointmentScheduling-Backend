@@ -2,6 +2,8 @@ package com.webService.appointmentScheduling.web.controller;
 import com.webService.appointmentScheduling.DTO.doctor.DoctorRequestDTO;
 import com.webService.appointmentScheduling.DTO.doctor.DoctorResponseDTO;
 import com.webService.appointmentScheduling.service.doctorService;
+import com.webService.appointmentScheduling.service.exceptions.DoctorCreationException;
+import com.webService.appointmentScheduling.service.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,14 +29,35 @@ public class doctorController {
         }
         }
 
-
     @PostMapping("/register")
-    public ResponseEntity<DoctorResponseDTO> createDoctor(@RequestBody DoctorRequestDTO doctorRequestDTO) {
-        DoctorResponseDTO doctorResponse = service.insert(doctorRequestDTO);
-        DoctorResponseDTO doctorResponseDTO = new DoctorResponseDTO(doctorResponse.getId(), doctorResponse.getName(), doctorResponse.getTell(),
-                doctorResponse.getCpf(), doctorResponse.getSpecialization(), doctorResponse.getDataNascimento());
-        return ResponseEntity.ok(doctorResponseDTO);
+    public ResponseEntity<?> createDoctor(@RequestBody DoctorRequestDTO doctorRequestDTO) {
+        try {
+            DoctorResponseDTO doctorResponse = service.insert(doctorRequestDTO);
+            return ResponseEntity.ok(doctorResponse);
+        }catch (DoctorCreationException e){
+            return  ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Não foi Possivel Registrar o Doutor:" + e.getMessage());
+        }
+            }
+
+    @GetMapping("/id/{id}")
+    public ResponseEntity<?> getDoctorById(@PathVariable Long id) {
+        try {
+            DoctorResponseDTO doctorResponseDTO = service.findById(id);
+            return ResponseEntity.ok(doctorResponseDTO);
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
     }
 
-    
-}
+    @GetMapping("/cpf/{cpf}")
+    public ResponseEntity<?> getDoctorByCpf(@PathVariable String cpf) {
+        try {
+            DoctorResponseDTO doctorResponseDTO = service.findByCpf(cpf);
+            return ResponseEntity.ok(doctorResponseDTO);
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
+
+
+    }

@@ -5,6 +5,7 @@ import com.webService.appointmentScheduling.DTO.doctor.DoctorResponseDTO;
 import com.webService.appointmentScheduling.repositories.doctorRepository;
 import com.webService.appointmentScheduling.entities.Doctor;
 import com.webService.appointmentScheduling.service.exceptions.DatabaseException;
+import com.webService.appointmentScheduling.service.exceptions.DoctorCreationException;
 import com.webService.appointmentScheduling.service.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -33,15 +34,24 @@ public class doctorService {
 
     public DoctorResponseDTO findById(Long id) {
         Doctor doctor = repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(id));
+                .orElseThrow(() -> new ResourceNotFoundException("\nDoctor with ID " + id + " not found"));
         return convertToResponseDTO(doctor);
     }
 
-    public DoctorResponseDTO insert(DoctorRequestDTO doctorRequestDTO) {
-        Doctor doctor = convertToEntity(doctorRequestDTO);
-        doctor = repository.save(doctor);
+    public DoctorResponseDTO findByCpf(String cpf) {
+        Doctor doctor = repository.findByCpf(cpf)
+                .orElseThrow(() -> new ResourceNotFoundException("\nDoctor with CPF " + cpf + " not found"));
         return convertToResponseDTO(doctor);
     }
+    public DoctorResponseDTO insert(DoctorRequestDTO doctorRequestDTO) {
+        try {
+            Doctor doctor = convertToEntity(doctorRequestDTO);
+            doctor = repository.save(doctor);
+            return convertToResponseDTO(doctor);
+        }catch (Exception e){
+            throw new DoctorCreationException("Failed to create doctor:" +e.getMessage());
+        }
+        }
 
     public DoctorResponseDTO update(Long id, DoctorRequestDTO doctorRequestDTO) {
         try {
