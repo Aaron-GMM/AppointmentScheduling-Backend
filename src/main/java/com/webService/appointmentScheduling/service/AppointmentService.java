@@ -39,7 +39,7 @@ public class AppointmentService {
     }
 
     private boolean isDoctorAvailable(Long doctorId, LocalDate date, LocalTime time){
-        Doctor doctor = doctorService.findById(doctorId);
+        Doctor doctor = doctorService.findByIdEntity(doctorId);
         return  repository.findByDoctorAndDateAndTime(doctor.getId(),date,time).isEmpty();
     }
 
@@ -49,7 +49,7 @@ public class AppointmentService {
     }
     public Appointment fromDTO(AppointmentRequestDTO dto){
         Patients patient = patientsService.findById(dto.getPatientId());
-        Doctor doctor = doctorService.findById(dto.getDoctorId());
+        Doctor doctor = doctorService.findByIdEntity(dto.getDoctorId());
         return  new Appointment(null, dto.getTime(),dto.getDate(),dto.getDescription(),patient,doctor);
     }
     public AppointmentResponseDTO toDTO(Appointment appointment){
