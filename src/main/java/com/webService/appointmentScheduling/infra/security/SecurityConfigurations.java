@@ -22,19 +22,32 @@ public class SecurityConfigurations {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
-                .csrf(csrf -> csrf.disable())
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .csrf(csrf -> csrf.disable()) // Desativa o CSRF
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Configuração stateless
                 .headers(headers -> headers
-                        .frameOptions(frameOptions -> frameOptions.disable()))
-                .authorizeHttpRequests(authorize-> authorize
+                        .frameOptions(frameOptions -> frameOptions.disable())) // Desativa opções de frame (se necessário)
+                .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers(HttpMethod.POST, "/auth/login").permitAll() // Permite acesso público ao login
+                        .requestMatchers(HttpMethod.GET, "/doctor/all").permitAll() // Permite acesso público ao "find all doctors"
                         .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
-                        .requestMatchers(HttpMethod.POST,"/auth/login").permitAll()
-                        .requestMatchers(HttpMethod.POST,"/doctor/register").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.GET,"/appointment").authenticated()
-                        .requestMatchers(HttpMethod.GET, "/doctors/all").authenticated()
-                        .anyRequest().permitAll()
+
+                        // Permite acesso autenticado para as rotas de detalhe e busca por CPF
+
+                        .requestMatchers(HttpMethod.GET, "/doctor/id/{id}").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/doctor/cpf/{cpf}").authenticated()
+
+                        // Exige role ADMIN para as operações de criação, atualização e deleção
+                        .requestMatchers(HttpMethod.POST, "/doctor/register").hasRole("ADMIN") // Apenas ADMIN pode criar
+                        .requestMatchers(HttpMethod.PUT, "/doctor/id/{id}").hasRole("ADMIN") // Apenas ADMIN pode atualizar
+                        .requestMatchers(HttpMethod.DELETE, "/doctor/id/{id}").hasRole("ADMIN") // Apenas ADMIN pode deletar
+
+                        // Exige autenticação para o endpoint do Appointment
+                        .requestMatchers(HttpMethod.GET, "/appointment").authenticated()
+
+                        // Outras requisições podem ser permitidas ou protegidas conforme necessário
+                        .anyRequest().permitAll() // Outros endpoints exigem permissões conforme necessário
                 )
-                .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class) // Filtro de autenticação JWT
                 .build();
     }
 
