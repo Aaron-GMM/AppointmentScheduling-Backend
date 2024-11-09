@@ -72,10 +72,12 @@ public class doctorService {
     }
 
     public void delete(Long id) {
+        Doctor doctor = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Doctor with ID " + id + " not found"));
         try {
-            repository.deleteById(id);
-        } catch (EmptyResultDataAccessException e) {
-            throw new DatabaseException(e.getMessage());
+            repository.delete(doctor);
+        } catch (DataIntegrityViolationException e) {
+            throw new DatabaseException("Integrity violation while deleting Doctor with ID " + id);
         }
     }
 
