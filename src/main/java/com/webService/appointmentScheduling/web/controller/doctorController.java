@@ -85,7 +85,7 @@ public class doctorController {
     public ResponseEntity<?> deleteDoctor(@PathVariable Long id) {
         try {
             doctorService.delete(id);
-            return ResponseEntity.noContent().build();
+            return ResponseEntity.noContent().build(); // Resposta 204 quando a exclusão for bem-sucedida
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(new errorResponse("Doutor não encontrado", "ID " + id + " não existe"));
