@@ -4,7 +4,7 @@ import com.webService.appointmentScheduling.DTO.appointment.AppointmentResponseD
 import com.webService.appointmentScheduling.entities.Appointment;
 import com.webService.appointmentScheduling.entities.Doctor;
 import com.webService.appointmentScheduling.entities.Patients;
-import com.webService.appointmentScheduling.repositories.appointmentRepository;
+import com.webService.appointmentScheduling.repositories.AppointmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,10 +16,12 @@ import java.util.Optional;
 @Service
 public class AppointmentService {
     @Autowired
-    private appointmentRepository repository;
+    private AppointmentRepository repository;
 
-    @Autowired patientsService patientsService;
-    @Autowired doctorService doctorService;
+    @Autowired
+    PatientsService patientsService;
+    @Autowired
+    DoctorService doctorService;
 
     private  final LocalTime startTime = LocalTime.of(8,0);
     private  final LocalTime endTime = LocalTime.of(14,0);
