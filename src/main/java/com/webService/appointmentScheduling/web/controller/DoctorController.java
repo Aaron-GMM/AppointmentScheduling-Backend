@@ -1,11 +1,10 @@
 package com.webService.appointmentScheduling.web.controller;
 import com.webService.appointmentScheduling.DTO.doctor.DoctorRequestDTO;
 import com.webService.appointmentScheduling.DTO.doctor.DoctorResponseDTO;
-import com.webService.appointmentScheduling.service.doctorService;
+import com.webService.appointmentScheduling.service.DoctorService;
 import com.webService.appointmentScheduling.service.exceptions.DatabaseException;
 import com.webService.appointmentScheduling.service.exceptions.DoctorCreationException;
 import com.webService.appointmentScheduling.service.exceptions.ResourceNotFoundException;
-import com.webService.appointmentScheduling.web.dto.errorResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,10 +15,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/doctor")
-public class doctorController {
+public class DoctorController {
 
     @Autowired
-    private doctorService doctorService;
+    private DoctorService doctorService;
 
     @GetMapping("/all")
     public ResponseEntity<List<DoctorResponseDTO>> findAll() {
@@ -38,7 +37,7 @@ public class doctorController {
             return ResponseEntity.status(HttpStatus.CREATED).body(doctorResponse);
         } catch (DoctorCreationException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(new errorResponse("Erro ao registrar o doutor", e.getMessage()));
+                    .body(new com.webService.appointmentScheduling.web.dto.ErrorResponse("Erro ao registrar o doutor", e.getMessage()));
         }
     }
 
@@ -49,7 +48,7 @@ public class doctorController {
             return ResponseEntity.ok(doctorResponseDTO);
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(new errorResponse("Doutor não encontrado", e.getMessage()));
+                    .body(new com.webService.appointmentScheduling.web.dto.ErrorResponse("Doutor não encontrado", e.getMessage()));
         }
     }
 
@@ -60,7 +59,7 @@ public class doctorController {
             return ResponseEntity.ok(doctorResponseDTO);
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(new errorResponse("Doutor não encontrado", e.getMessage()));
+                    .body(new com.webService.appointmentScheduling.web.dto.ErrorResponse("Doutor não encontrado", e.getMessage()));
         }
     }
 
@@ -71,13 +70,13 @@ public class doctorController {
             return ResponseEntity.ok(responseDTO);
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(new errorResponse("Doutor não encontrado", "ID " + id + " não existe"));
+                    .body(new com.webService.appointmentScheduling.web.dto.ErrorResponse("Doutor não encontrado", "ID " + id + " não existe"));
         } catch (DatabaseException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new errorResponse("Erro de banco de dados", e.getMessage()));
+                    .body(new com.webService.appointmentScheduling.web.dto.ErrorResponse("Erro de banco de dados", e.getMessage()));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new errorResponse("Erro inesperado", e.getMessage()));
+                    .body(new com.webService.appointmentScheduling.web.dto.ErrorResponse("Erro inesperado", e.getMessage()));
         }
     }
 
@@ -88,13 +87,13 @@ public class doctorController {
             return ResponseEntity.noContent().build(); // Resposta 204 quando a exclusão for bem-sucedida
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(new errorResponse("Doutor não encontrado", "ID " + id + " não existe"));
+                    .body(new com.webService.appointmentScheduling.web.dto.ErrorResponse("Doutor não encontrado", "ID " + id + " não existe"));
         } catch (DatabaseException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new errorResponse("Erro de banco de dados", e.getMessage()));
+                    .body(new com.webService.appointmentScheduling.web.dto.ErrorResponse("Erro de banco de dados", e.getMessage()));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new errorResponse("Erro inesperado", e.getMessage()));
+                    .body(new com.webService.appointmentScheduling.web.dto.ErrorResponse("Erro inesperado", e.getMessage()));
         }
     }
     }
