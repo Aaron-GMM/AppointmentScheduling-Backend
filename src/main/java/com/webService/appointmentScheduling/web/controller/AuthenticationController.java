@@ -2,8 +2,8 @@ package com.webService.appointmentScheduling.web.controller;
 import com.webService.appointmentScheduling.DTO.user.LoginResponseDTO;
 import com.webService.appointmentScheduling.DTO.user.User;
 import com.webService.appointmentScheduling.infra.security.TokenService;
-import com.webService.appointmentScheduling.repositories.userRepository;
-import com.webService.appointmentScheduling.service.userService;
+import com.webService.appointmentScheduling.repositories.UserRepository;
+import com.webService.appointmentScheduling.service.UserService;
 import com.webService.appointmentScheduling.DTO.user.AuthenticationDTO;
 import com.webService.appointmentScheduling.DTO.user.RegisterUserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +24,9 @@ public class AuthenticationController {
     private AuthenticationManager authenticationManager;
 
     @Autowired
-     private userRepository userRepository;
+     private UserRepository userRepository;
     @Autowired
-    private userService userService;
+    private UserService userService;
 
     @Autowired
     private TokenService tokenService;
