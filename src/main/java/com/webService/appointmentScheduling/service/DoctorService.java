@@ -2,7 +2,7 @@ package com.webService.appointmentScheduling.service;
 
 import com.webService.appointmentScheduling.DTO.doctor.DoctorRequestDTO;
 import com.webService.appointmentScheduling.DTO.doctor.DoctorResponseDTO;
-import com.webService.appointmentScheduling.repositories.doctorRepository;
+import com.webService.appointmentScheduling.repositories.DoctorRepository;
 import com.webService.appointmentScheduling.entities.Doctor;
 import com.webService.appointmentScheduling.service.exceptions.DatabaseException;
 import com.webService.appointmentScheduling.service.exceptions.DoctorCreationException;
@@ -15,10 +15,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class doctorService {
+public class DoctorService {
 
     @Autowired
-    private doctorRepository repository;
+    private DoctorRepository repository;
 
     public List<DoctorResponseDTO> findAll() {
         List<Doctor> doctors = repository.findAll();
