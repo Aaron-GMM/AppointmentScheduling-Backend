@@ -1,6 +1,7 @@
 package com.webService.appointmentScheduling.service;
 import com.webService.appointmentScheduling.DTO.appointment.AppointmentRequestDTO;
 import com.webService.appointmentScheduling.DTO.appointment.AppointmentResponseDTO;
+import com.webService.appointmentScheduling.DTO.patients.PatientsResponseDTO;
 import com.webService.appointmentScheduling.entities.Appointment;
 import com.webService.appointmentScheduling.entities.Doctor;
 import com.webService.appointmentScheduling.entities.Patients;
@@ -46,12 +47,13 @@ public class AppointmentService {
     }
 
     private  boolean isPatientAvailable(Long patientId, LocalDate date, LocalTime time){
-        Patients patient = patientsService.findById(patientId);
+        Patients patient = patientsService.findByIdEntity(patientId);
         return repository.findByPatientAndDateAndTime(patient.getId(),date,time).isEmpty();
     }
     public Appointment fromDTO(AppointmentRequestDTO dto){
-        Patients patient = patientsService.findById(dto.getPatientId());
+        Patients patient = patientsService.findByIdEntity(dto.getPatientId());
         Doctor doctor = doctorService.findByIdEntity(dto.getDoctorId());
+
         return  new Appointment(null, dto.getTime(),dto.getDate(),dto.getDescription(),patient,doctor);
     }
     public AppointmentResponseDTO toDTO(Appointment appointment){
