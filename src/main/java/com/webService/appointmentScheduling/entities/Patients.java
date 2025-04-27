@@ -1,5 +1,6 @@
 package com.webService.appointmentScheduling.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -16,6 +17,8 @@ public class Patients implements Serializable {
     private String name;
     private String cpf;
     private String tell;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private Date dataNascimento;
 
     public Patients(Long id, String name, String cpf, String tell, Date dataNascimento) {

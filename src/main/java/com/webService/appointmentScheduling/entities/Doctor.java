@@ -30,8 +30,7 @@ public class Doctor implements Serializable {
         this.specialization = specialization;
         this.dataNascimento = dataNascimento;
     }
-    public Doctor(){
-    }
+    public Doctor(){}
 
     public Long getId() {
         return id;
