@@ -52,10 +52,10 @@ public class DoctorController {
         }
     }
 
-    @GetMapping("/cpf/{cpf}")
-    public ResponseEntity<?> getDoctorByCpf(@PathVariable String cpf) {
+    @PostMapping("/cpf/")
+    public ResponseEntity<?> getDoctorByCpf(@RequestBody DoctorRequestDTO doctorRequestDTO) {
         try {
-            DoctorResponseDTO doctorResponseDTO = doctorService.findByCpf(cpf);
+            DoctorResponseDTO doctorResponseDTO = doctorService.findByCpf(doctorRequestDTO.getCpf());
             return ResponseEntity.ok(doctorResponseDTO);
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
