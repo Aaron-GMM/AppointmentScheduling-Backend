@@ -11,6 +11,7 @@
 	<groupId>com.webService</groupId>
 	<artifactId>appointmentScheduling</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
 	<name>appointmentScheduling</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
@@ -95,9 +96,17 @@
 
 	<build>
 		<plugins>
+			<!-- Spring Boot Maven Plugin para criar fat-jar -->
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
