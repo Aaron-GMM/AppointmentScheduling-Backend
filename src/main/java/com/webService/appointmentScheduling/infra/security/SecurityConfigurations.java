@@ -34,7 +34,7 @@ public class SecurityConfigurations {
                         // Permite acesso autenticado para as rotas de detalhe e busca por CPF
 
                         .requestMatchers(HttpMethod.GET, "/doctor/id/{id}").authenticated()
-                        .requestMatchers(HttpMethod.GET, "/doctor/cpf/{cpf}").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/doctor/cpf/").authenticated()
 
                         // Exige role ADMIN para as operações de criação, atualização e deleção
                         .requestMatchers(HttpMethod.POST, "/doctor/register").hasRole("ADMIN") // Apenas ADMIN pode criar
