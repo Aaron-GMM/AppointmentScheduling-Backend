@@ -95,6 +95,7 @@
 	</dependencies>
 
 	<build>
+		<finalName>AppointmentSchedulingApplication</finalName>
 		<plugins>
 			<!-- Spring Boot Maven Plugin para criar fat-jar -->
 			<plugin>
