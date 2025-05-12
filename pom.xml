@@ -97,6 +97,7 @@
 	<build>
 		<finalName>AppointmentSchedulingApplication</finalName>
 		<plugins>
+			<!-- Spring Boot Maven Plugin para criar fat-jar -->
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
