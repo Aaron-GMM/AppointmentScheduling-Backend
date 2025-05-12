@@ -7,4 +7,4 @@
 
 Visão Geral
 
-O AppointmentScheduling-Backend é um serviço HTTP de agendamento de consultas, desenvolvido em Java 17 com Spring Boot, que expõe uma API para operações CRUD em agendamentos, usuários e disponibilidade. Adota autenticação estateless via JWT, persistência de dados com PostgreSQL e é containerizado com Docker para facilitar build e deploy
+O AppointmentScheduling-Backend é um serviço HTTP de agendamento de consultas, desenvolvido em Java 21 com Spring Boot, que expõe uma API para operações CRUD em agendamentos, usuários e disponibilidade. Adota autenticação estateless via JWT, persistência de dados com PostgreSQL e é containerizado com Docker para facilitar build e deploy
