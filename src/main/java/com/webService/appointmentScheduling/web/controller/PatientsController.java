@@ -44,13 +44,24 @@ public class PatientsController {
     }
 
     @PostMapping("/cpf")
-    public ResponseEntity<?> getPatientCpf(@PathVariable String cpf){
+    public ResponseEntity<?> getPatientByCpf(@PathVariable String cpf){
         try{
             PatientsResponseDTO patientsResponseDTO = patientsService.findByCpf(cpf);
             return ResponseEntity.ok(patientsResponseDTO);
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(new ErrorResponse("Paciente não encontrado", e.getMessage() ));
+        }
+    }
+
+    @PostMapping("/name")
+    public ResponseEntity<?> getPatientByName(@PathVariable String name){
+        try {
+            PatientsResponseDTO patientsResponseDTO = patientsService.findByName(name);
+            return ResponseEntity.ok(patientsResponseDTO);
+        }catch (ResourceNotFoundException e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ErrorResponse("Paciente não encotrado", e.getMessage()));
         }
     }
     @GetMapping("/id/{id}")

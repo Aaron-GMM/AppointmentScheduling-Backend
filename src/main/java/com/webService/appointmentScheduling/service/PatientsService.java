@@ -39,6 +39,11 @@ public class PatientsService {
                 .orElseThrow(() -> new ResourceNotFoundException("\nPatients with CPF " + cpf + " not found"));
         return convertToResponseDTO(p);
     }
+    public PatientsResponseDTO findByName(String name){
+        Patients p = repository.findByName(name)
+                .orElseThrow(()-> new ResourceNotFoundException("\nPatients with Name " + name + " not found"));
+        return convertToResponseDTO(p);
+    }
     public PatientsResponseDTO insert(PatientsRequestDTO patientsRequestDTO){
         try {
             Patients p = convertToEntity(patientsRequestDTO);
