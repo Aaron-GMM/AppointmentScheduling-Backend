@@ -38,10 +38,21 @@ public class PatientsController {
             PatientsResponseDTO patientsResponseDTO = patientsService.insert(patientsRequestDTO);
             return ResponseEntity.status(HttpStatus.CREATED).body(patientsResponseDTO);
         }catch (PatientsCreationException e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse("Erro ao Resgitrar o paciente", e.getMessage()));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new ErrorResponse("Erro ao Resgitrar o paciente", e.getMessage()));
         }
     }
 
+    @PostMapping("/cpf")
+    public ResponseEntity<?> getPatientCpf(@PathVariable String cpf){
+        try{
+            PatientsResponseDTO patientsResponseDTO = patientsService.findByCpf(cpf);
+            return ResponseEntity.ok(patientsResponseDTO);
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ErrorResponse("Paciente não encontrado", e.getMessage() ));
+        }
+    }
     @GetMapping("/id/{id}")
     public ResponseEntity<?> getPatientById(@PathVariable Long id){
         try {
