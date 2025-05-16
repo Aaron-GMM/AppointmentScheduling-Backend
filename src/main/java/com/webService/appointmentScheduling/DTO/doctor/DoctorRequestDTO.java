@@ -2,7 +2,6 @@ package com.webService.appointmentScheduling.DTO.doctor;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.*;
-
 import java.util.Date;
 import java.io.Serializable;
 
