@@ -1,6 +1,5 @@
 package com.webService.appointmentScheduling.web.controller;
 
-import com.webService.appointmentScheduling.DTO.doctor.DoctorRequestDTO;
 import com.webService.appointmentScheduling.DTO.patients.PatientsRequestDTO;
 import com.webService.appointmentScheduling.DTO.patients.PatientsResponseDTO;
 import com.webService.appointmentScheduling.service.exceptions.DatabaseException;
@@ -53,7 +52,7 @@ public class PatientsController {
     }
 
     @PostMapping("/cpf")
-    public ResponseEntity<?> getPatientByCpf(@Valid @RequestBody DoctorRequestDTO doctorRequestDTO,BindingResult br){
+    public ResponseEntity<?> getPatientByCpf(@Valid @RequestBody PatientsRequestDTO patientsRequestDTO,BindingResult br){
         try{
             if (br.hasErrors()){
                 List<String> errors = br.getFieldErrors().stream()
@@ -61,7 +60,7 @@ public class PatientsController {
                         .toList();
                 return ResponseEntity.badRequest().body(errors);
             }
-            PatientsResponseDTO patientsResponseDTO = patientsService.findByCpf(doctorRequestDTO.getCpf());
+            PatientsResponseDTO patientsResponseDTO = patientsService.findByCpf(patientsRequestDTO.getCpf());
             return ResponseEntity.ok(patientsResponseDTO);
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
@@ -70,7 +69,7 @@ public class PatientsController {
     }
 
     @PostMapping("/name")
-    public ResponseEntity<?> getPatientByName(@Valid @RequestBody DoctorRequestDTO doctorRequestDTO,BindingResult br){
+    public ResponseEntity<?> getPatientByName(@Valid @RequestBody PatientsRequestDTO patientsRequestDTO,BindingResult br){
         try {
             if (br.hasErrors()){
                 List<String> errors = br.getFieldErrors().stream()
@@ -79,7 +78,7 @@ public class PatientsController {
                 return ResponseEntity.badRequest().body(errors);
             }
 
-            PatientsResponseDTO patientsResponseDTO = patientsService.findByName(doctorRequestDTO.getName());
+            PatientsResponseDTO patientsResponseDTO = patientsService.findByName(patientsRequestDTO.getName());
             return ResponseEntity.ok(patientsResponseDTO);
         }catch (ResourceNotFoundException e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
