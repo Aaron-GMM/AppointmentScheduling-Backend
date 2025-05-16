@@ -5,9 +5,11 @@ import com.webService.appointmentScheduling.service.DoctorService;
 import com.webService.appointmentScheduling.service.exceptions.DatabaseException;
 import com.webService.appointmentScheduling.service.exceptions.DoctorCreationException;
 import com.webService.appointmentScheduling.service.exceptions.ResourceNotFoundException;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import java.util.Collections;
 import java.util.List;
@@ -31,8 +33,14 @@ public class DoctorController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> createDoctor(@RequestBody DoctorRequestDTO doctorRequestDTO) {
+    public ResponseEntity<?> createDoctor(@Valid @RequestBody DoctorRequestDTO doctorRequestDTO, BindingResult br) {
         try {
+            if (br.hasErrors()){
+                List<String> errors = br.getFieldErrors().stream()
+                        .map(f ->f.getField()+": "+f.getDefaultMessage())
+                        .toList();
+                return ResponseEntity.badRequest().body(errors);
+            }
             DoctorResponseDTO doctorResponse = doctorService.insert(doctorRequestDTO);
             return ResponseEntity.status(HttpStatus.CREATED).body(doctorResponse);
         } catch (DoctorCreationException e) {
@@ -53,8 +61,14 @@ public class DoctorController {
     }
 
     @PostMapping("/cpf/")
-    public ResponseEntity<?> getDoctorByCpf(@RequestBody DoctorRequestDTO doctorRequestDTO) {
+    public ResponseEntity<?> getDoctorByCpf(@Valid @RequestBody DoctorRequestDTO doctorRequestDTO,BindingResult br) {
         try {
+            if (br.hasErrors()){
+                List<String> errors = br.getFieldErrors().stream()
+                        .map(f ->f.getField()+": "+f.getDefaultMessage())
+                        .toList();
+                return ResponseEntity.badRequest().body(errors);
+            }
             DoctorResponseDTO doctorResponseDTO = doctorService.findByCpf(doctorRequestDTO.getCpf());
             return ResponseEntity.ok(doctorResponseDTO);
         } catch (ResourceNotFoundException e) {
@@ -64,8 +78,14 @@ public class DoctorController {
     }
 
     @PutMapping("/id/{id}")
-    public ResponseEntity<?> updateDoctor(@PathVariable Long id, @RequestBody DoctorRequestDTO requestDTO) {
+    public ResponseEntity<?> updateDoctor(@PathVariable Long id, @Valid @RequestBody DoctorRequestDTO requestDTO, BindingResult br) {
         try {
+            if (br.hasErrors()){
+                List<String> errors = br.getFieldErrors().stream()
+                        .map(f ->f.getField()+": "+f.getDefaultMessage())
+                        .toList();
+                return ResponseEntity.badRequest().body(errors);
+            }
             DoctorResponseDTO responseDTO = doctorService.update(id, requestDTO);
             return ResponseEntity.ok(responseDTO);
         } catch (ResourceNotFoundException e) {
