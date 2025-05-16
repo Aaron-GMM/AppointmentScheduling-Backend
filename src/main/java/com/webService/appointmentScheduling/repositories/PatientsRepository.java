@@ -8,5 +8,5 @@ import java.util.Optional;
 
 public interface PatientsRepository extends JpaRepository<Patients, Long> {
     Optional<Patients> findByCpf(String cpf);
-
+    Optional<Patients> findByName(String name);
 }
