@@ -1,23 +1,35 @@
 package com.webService.appointmentScheduling.DTO.doctor;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.validation.constraints.*;
 
-import java.io.Serializable;
 import java.util.Date;
+import java.io.Serializable;
 
 public class DoctorRequestDTO implements Serializable {
     private  static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Null
     private  Long id;
 
+    @NotBlank(message = "Nome é obrigatório")
     private String name;
+
+    @NotBlank(message = "Telefone é obrigatório")
+    @Pattern(regexp = "\\d{10,11}", message = "Telefone deve ter 10 ou 11 dígitos")
     private String tell;
+
+    @NotBlank(message = "CPF é obrigatório")
+    @Pattern(
+            regexp = "\\d{3}\\.\\d{3}\\.\\d{3}\\-\\d{2}",
+            message = "CPF deve seguir o formato xxx.xxx.xxx-xx"
+    )
     private String cpf;
+
+    @NotBlank(message = "Especialização é obrigatória")
     private String specialization;
+
+    @NotNull(message = "Data de nascimento é obrigatória")
+    @Past(message = "Data de nascimento deve ser no passado")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private Date dataNascimento;
 
