@@ -6,11 +6,13 @@ import com.webService.appointmentScheduling.service.exceptions.DatabaseException
 import com.webService.appointmentScheduling.service.exceptions.PatientsCreationException;
 import com.webService.appointmentScheduling.service.exceptions.ResourceNotFoundException;
 import com.webService.appointmentScheduling.web.dto.ErrorResponse;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.webService.appointmentScheduling.service.PatientsService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
@@ -33,8 +35,14 @@ public class PatientsController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> createPatient(@RequestBody PatientsRequestDTO patientsRequestDTO){
+    public ResponseEntity<?> createPatient(@Valid  @RequestBody PatientsRequestDTO patientsRequestDTO, BindingResult br){
         try{
+            if (br.hasErrors()){
+                List<String> errors = br.getFieldErrors().stream()
+                        .map(f->f.getField()+": "+f.getDefaultMessage())
+                        .toList();
+                return ResponseEntity.badRequest().body(errors);
+            }
             PatientsResponseDTO patientsResponseDTO = patientsService.insert(patientsRequestDTO);
             return ResponseEntity.status(HttpStatus.CREATED).body(patientsResponseDTO);
         }catch (PatientsCreationException e){
@@ -44,9 +52,15 @@ public class PatientsController {
     }
 
     @PostMapping("/cpf")
-    public ResponseEntity<?> getPatientByCpf(@PathVariable String cpf){
+    public ResponseEntity<?> getPatientByCpf(@Valid @RequestBody PatientsRequestDTO patientsRequestDTO,BindingResult br){
         try{
-            PatientsResponseDTO patientsResponseDTO = patientsService.findByCpf(cpf);
+            if (br.hasErrors()){
+                List<String> errors = br.getFieldErrors().stream()
+                        .map(f->f.getField()+": "+f.getDefaultMessage())
+                        .toList();
+                return ResponseEntity.badRequest().body(errors);
+            }
+            PatientsResponseDTO patientsResponseDTO = patientsService.findByCpf(patientsRequestDTO.getCpf());
             return ResponseEntity.ok(patientsResponseDTO);
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
@@ -55,9 +69,16 @@ public class PatientsController {
     }
 
     @PostMapping("/name")
-    public ResponseEntity<?> getPatientByName(@PathVariable String name){
+    public ResponseEntity<?> getPatientByName(@Valid @RequestBody PatientsRequestDTO patientsRequestDTO,BindingResult br){
         try {
-            PatientsResponseDTO patientsResponseDTO = patientsService.findByName(name);
+            if (br.hasErrors()){
+                List<String> errors = br.getFieldErrors().stream()
+                        .map(f->f.getField()+": "+f.getDefaultMessage())
+                        .toList();
+                return ResponseEntity.badRequest().body(errors);
+            }
+
+            PatientsResponseDTO patientsResponseDTO = patientsService.findByName(patientsRequestDTO.getName());
             return ResponseEntity.ok(patientsResponseDTO);
         }catch (ResourceNotFoundException e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
@@ -75,8 +96,14 @@ public class PatientsController {
     }
 
     @PutMapping("/id/{id}")
-    public ResponseEntity<?> updatePatiente(@PathVariable Long id, @RequestBody PatientsRequestDTO patientsRequestDTO){
+    public ResponseEntity<?> updatePatiente(@Valid @PathVariable Long id, @Valid @RequestBody PatientsRequestDTO patientsRequestDTO,BindingResult br){
         try{
+            if (br.hasErrors()){
+                List<String> errors = br.getFieldErrors().stream()
+                        .map(f->f.getField()+": "+f.getDefaultMessage())
+                        .toList();
+                return ResponseEntity.badRequest().body(errors);
+            }
             PatientsResponseDTO patientsResponseDTO = patientsService.update(id, patientsRequestDTO);
             return ResponseEntity.ok(patientsResponseDTO);
         } catch (ResourceNotFoundException e) {
