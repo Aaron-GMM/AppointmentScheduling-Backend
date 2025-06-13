@@ -25,29 +25,38 @@ public class SecurityConfigurations {
                 .csrf(csrf -> csrf.disable()) // Desativa o CSRF
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Configuração stateless
                 .headers(headers -> headers
-                        .frameOptions(frameOptions -> frameOptions.disable())) // Desativa opções de frame (se necessário)
+                        .frameOptions(frameOptions -> frameOptions.disable()))
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(HttpMethod.POST, "/auth/login").permitAll() // Permite acesso público ao login
-                        .requestMatchers(HttpMethod.GET, "/doctor/all").permitAll() // Permite acesso público ao "find all doctors"
-                        .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
 
-                        // Permite acesso autenticado para as rotas de detalhe e busca por CPF
+                        //User
+                        .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/auth/register").hasRole("ADMIN")
 
+                        //Doctor
+                        .requestMatchers(HttpMethod.GET, "/doctor/all").permitAll()
                         .requestMatchers(HttpMethod.GET, "/doctor/id/{id}").authenticated()
                         .requestMatchers(HttpMethod.POST, "/doctor/cpf/").authenticated()
-
-                        // Exige role ADMIN para as operações de criação, atualização e deleção
                         .requestMatchers(HttpMethod.POST, "/doctor/register").hasRole("ADMIN") // Apenas ADMIN pode criar
                         .requestMatchers(HttpMethod.PUT, "/doctor/id/{id}").hasRole("ADMIN") // Apenas ADMIN pode atualizar
                         .requestMatchers(HttpMethod.DELETE, "/doctor/id/{id}").hasRole("ADMIN") // Apenas ADMIN pode deletar
 
-                        // Exige autenticação para o endpoint do Appointment
+                        //Patients
+                        .requestMatchers(HttpMethod.POST,"/patients/register").authenticated()
+                        .requestMatchers(HttpMethod.PUT,"/patients/id/").authenticated()
+                        .requestMatchers(HttpMethod.DELETE,"/patients/id/").authenticated()
+                        .requestMatchers(HttpMethod.GET,"/patients/all").authenticated()
+                        .requestMatchers(HttpMethod.GET,"/patients/id/").authenticated()
+                        .requestMatchers(HttpMethod.POST,"/patients/cpf").authenticated()
+                        .requestMatchers(HttpMethod.POST,"/patients/name").authenticated()
+
+
+
+
                         .requestMatchers(HttpMethod.GET, "/appointment").authenticated()
 
-                        // Outras requisições podem ser permitidas ou protegidas conforme necessário
-                        .anyRequest().permitAll() // Outros endpoints exigem permissões conforme necessário
+                        .anyRequest().permitAll()
                 )
-                .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class) // Filtro de autenticação JWT
+                .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 
