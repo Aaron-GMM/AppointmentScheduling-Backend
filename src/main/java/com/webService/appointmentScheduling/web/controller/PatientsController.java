@@ -52,7 +52,7 @@ public class PatientsController {
     }
 
     @PostMapping("/cpf")
-    public ResponseEntity<?> getPatientByCpf(@Valid @RequestBody PatientsRequestDTO patientsRequestDTO,BindingResult br){
+    public ResponseEntity<?> getPatientByCpf(@RequestBody PatientsRequestDTO patientsRequestDTO,BindingResult br){
         try{
             if (br.hasErrors()){
                 List<String> errors = br.getFieldErrors().stream()
@@ -69,7 +69,7 @@ public class PatientsController {
     }
 
     @PostMapping("/name")
-    public ResponseEntity<?> getPatientByName(@Valid @RequestBody PatientsRequestDTO patientsRequestDTO,BindingResult br){
+    public ResponseEntity<?> getPatientByName(@RequestBody PatientsRequestDTO patientsRequestDTO,BindingResult br){
         try {
             if (br.hasErrors()){
                 List<String> errors = br.getFieldErrors().stream()
